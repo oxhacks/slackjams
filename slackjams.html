@@ -1,0 +1,82 @@
+<head>
+  <title>slackjams</title>
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.deep_orange-blue.min.css" />
+</head>
+
+<body>
+  <!-- Always shows a header, even in smaller screens. -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title"><h2>slack<b>jams</b></h2></span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        {{> test}}
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">slackjams</span>
+    </div>
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <!--{{> counter}}
+        {{> test}}-->
+        {{> music}}
+      </div>
+    </main>
+  </div>
+  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
+</body>
+
+<template name="counter">
+  <p>You've pressed the button {{counter}} times.</p>
+</template>
+
+<template name="test">
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+  Test API
+  </button>
+  <span class="test_status">
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+      <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" checked="{{testStatus}}"/>
+      <span class="mdl-checkbox__label">API</span>
+    </label>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+      <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" checked="{{authStatus}}"/>
+      <span class="mdl-checkbox__label">Auth</span>
+    </label>
+  </span>
+</template>
+
+<template name="channels">
+  <ul>
+  {{#each channels}}
+    <li>{{name}}</li>
+  {{/each}}
+  </ul>
+</template>
+
+<template name="music">
+  <div class="mdl-grid">
+  {{#each jams}}
+    {{#each attachments}}
+    <div class="mdl-cell mdl-cell--2-col">
+      <div class="demo-card-image mdl-card mdl-shadow--2dp" style="background: url('{{usable_image}}') center / cover;">
+        <div class="mdl-card__title mdl-card--expand"></div>
+        <div class="mdl-card__actions">
+          <span class="info">{{prettifyDate time}} by @{{user.user.name}}</span>
+          <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" onclick="window.open('{{title_link}}')">
+            <i class="material-icons">&#xE038;</i>
+          </button>
+          <br />
+          <span class="demo-card-image__filename">{{title}}</span>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  {{/each}}
+  </div>
+</template>
