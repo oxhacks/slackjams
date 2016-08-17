@@ -33,6 +33,7 @@ if (Meteor.isClient) {
 
   Template.channels.created = function () {
     Meteor.call("getChannels", function(error, result) {
+      console.log("result", result);
       Session.set('channels', result.channels);
     });
   }
@@ -45,6 +46,7 @@ if (Meteor.isClient) {
 
   Template.music.created = function() {
     Meteor.call("getHistory", function(error, result) {
+      console.log("getHistory result", result);
       Session.set('jams', result);
     });
   }
@@ -73,6 +75,8 @@ if (Meteor.isServer) {
 
   Meteor.startup(function () {
     // code to run on server at startup
+    console.log("Starting app");
+    console.log("Channel: ", channel);
   });
 
   Meteor.methods({
@@ -98,6 +102,7 @@ if (Meteor.isServer) {
     },
     getHistory: function() {
       history = SlackAPI.channels.history(token, channel);
+      console.log("History retrieved");
       var redacted = [];
       for (message in history.messages) {
         message = history.messages[message];

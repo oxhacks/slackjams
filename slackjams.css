@@ -32,8 +32,22 @@ body {
   background-color: #222;
   background-size: cover;
   font-family: 'Roboto';
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
+.mdl-grid {
+  display: flex;
+  align-content: center;
+}
+
 .test_status {
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.card {
+  max-width: 256px;
+  margin: 8px;
+  display: flex;
 }
