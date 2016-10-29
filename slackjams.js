@@ -70,10 +70,17 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  var token = process.env.STOKEN;
-  var channel_name = process.env.SCHANNEL;
+  var token, channel;
+
+  if (Meteor.settings.private.env) {
+    token = process.env.STOKEN;
+    channel_name = process.env.SCHANNEL;
+  } else {
+    token = Meteor.settings.private.slack.token;
+    channel_name = Meteor.settings.private.slack.channel_name;
+  }
   var channel_id = null;
-  Channels = new Mongo.Collection(null);
+  Channels = new Mongo.Collection(Meteor.settings.private.mongo.collection);
 
   Meteor.startup(function () {
     // code to run on server at startup

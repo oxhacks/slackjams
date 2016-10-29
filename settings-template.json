@@ -1,0 +1,17 @@
+{
+    "private": {
+        "env": false,
+        "slack": {
+            "token": "",
+            "channel_name": "music"
+        },
+        "mongo": {
+            "collection": null
+        }
+    },
+    "public": {
+        "blacklist": [
+            "google.com"
+        ]
+    }
+}
