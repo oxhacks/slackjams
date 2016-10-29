@@ -71,12 +71,16 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   var token = process.env.STOKEN;
-  var channel = process.env.SCHANNEL;
+  var channel_name = process.env.SCHANNEL;
+  var channel_id = null;
+  Channels = new Mongo.Collection(null);
 
   Meteor.startup(function () {
     // code to run on server at startup
     console.log("Starting app");
-    console.log("Channel: ", channel);
+    console.log("Channel: ", channel_name);
+    Meteor.call('cacheChannels');
+    channel_id = Meteor.call('getChannelId', channel_name);
   });
 
   Meteor.methods({
@@ -94,14 +98,18 @@ if (Meteor.isServer) {
         console.log(e);
       }
     },
-    getChannels: function() {
-      console.log("Using token", token);
-      channels = SlackAPI.channels.list(token);
-      console.log(channels);
-      return channels;
+    getChannelId: function(channel_name) {
+      var found = Channels.findOne({'name': channel_name});
+      return found.id;
+    },
+    cacheChannels: function() {
+      var channels = SlackAPI.channels.list(token).channels;
+      for (index in channels) {
+        _channel = Channels.insert(channels[index]);
+      }
     },
     getHistory: function() {
-      history = SlackAPI.channels.history(token, channel);
+      history = SlackAPI.channels.history(token, channel_id);
       console.log("History retrieved");
       var redacted = [];
       for (message in history.messages) {
